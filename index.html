@@ -26,6 +26,7 @@
         <a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
+        <button id="sound-toggle" class="sound-toggle" aria-label="Toggle click sound" aria-pressed="true" title="Sound on/off">🔊</button>
         <a href="#" class="btn btn-ghost">Resume</a>
         <a href="#contact" class="btn btn-primary btn-sm">Hire me →</a>
       </div>
@@ -254,5 +255,48 @@
       <a href="https://t.me/sanoi1982" target="_blank" rel="noopener">Telegram</a><a href="https://github.com/Odilsho1982" target="_blank" rel="noopener">GitHub</a><a href="mailto:hello@odilsho.dev">Email</a><a href="#contact">Contact</a>
     </div>
   </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+  <script>
+    (function () {
+      var KEY = 'odilsho-sound-enabled';
+      var enabled = true;
+      try {
+        var saved = localStorage.getItem(KEY);
+        if (saved === 'off') enabled = false;
+      } catch (e) { /* private mode — default on */ }
+
+      var click = new Howl({
+        src: ['https://cdn.jsdelivr.net/npm/ion-sound@3.0.7/sounds/button_click.mp3'],
+        volume: 0.25,
+        preload: true
+      });
+
+      var toggle = document.getElementById('sound-toggle');
+
+      function render() {
+        toggle.textContent = enabled ? '🔊' : '🔇';
+        toggle.setAttribute('aria-pressed', String(enabled));
+        toggle.title = enabled ? 'Sound on — click to mute' : 'Sound off — click to unmute';
+        toggle.classList.toggle('muted', !enabled);
+      }
+
+      toggle.addEventListener('click', function () {
+        enabled = !enabled;
+        try { localStorage.setItem(KEY, enabled ? 'on' : 'off'); } catch (e) {}
+        render();
+        if (enabled) click.play();
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!enabled) return;
+        if (e.target.closest('#sound-toggle')) return; // toggle plays its own sound
+        var el = e.target.closest('a, button');
+        if (el) click.play();
+      });
+
+      render();
+    })();
+  </script>
 </body>
 </html>

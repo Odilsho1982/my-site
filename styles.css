@@ -79,6 +79,16 @@ main, header, footer { position: relative; z-index: 1; }
 .btn-outline-white:hover { background: rgba(255,255,255,0.12); }
 .full { width: 100%; padding: 12px; }
 
+/* SOUND TOGGLE */
+.sound-toggle {
+  width: 38px; height: 38px; display: inline-grid; place-items: center;
+  font-size: 1.05rem; border-radius: 12px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); color: #fff;
+  transition: background 0.2s, transform 0.15s, opacity 0.2s;
+}
+.sound-toggle:hover { background: rgba(255,255,255,0.09); transform: translateY(-1px); }
+.sound-toggle.muted { opacity: 0.55; }
+
 /* HERO */
 .hero { text-align: center; padding: 90px 24px 40px; }
 .badge {
